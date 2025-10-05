@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Button } from '~/components/Button'
+import Button from '~/components/Button'
 import './index.css'
 import { useSignup } from '~/hooks/useSignup'
 import { useId } from '~/hooks/useId'

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { Navigate, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useLogin } from '~/hooks/useLogin'
-import { Button } from '~/components/Button'
+import Button from '~/components/Button'
 import { useId } from '~/hooks/useId'
 import './index.css'
 

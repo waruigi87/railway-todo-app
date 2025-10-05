@@ -5,7 +5,7 @@ import { TaskItem } from '~/components/TaskItem'
 import { TaskCreateForm } from '~/components/TaskCreateForm'
 import { setCurrentList } from '~/store/list'
 import { fetchTasks } from '~/store/task'
-import { Button } from '~/components/Button'
+import Button from '~/components/Button'
 import './index.css'
 
 const ListIndex = () => {
