@@ -1,12 +1,12 @@
 import React, { StrictMode } from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
 import { Provider } from 'react-redux'
 import { store } from './store/index'
 import axios from '~/vendor/axios'
 
-axios.interceptors.request.use(config => {
+axios.interceptors.request.use((config) => {
   const token = store.getState().auth.token
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
@@ -16,11 +16,11 @@ axios.interceptors.request.use(config => {
 })
 
 const root = document.getElementById('root')
-ReactDOM.render(
+
+ReactDOM.createRoot(root).render(
   <StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </StrictMode>,
-  root,
+  </StrictMode>
 )

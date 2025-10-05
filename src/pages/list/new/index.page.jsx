@@ -1,14 +1,15 @@
 import React, { useCallback, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { BackButton } from '~/components/BackButton'
+import {Button } from '~/components/Button'
 import './index.css'
 import { createList, setCurrentList } from '~/store/list/index'
 import { useId } from '~/hooks/useId'
 
 const NewList = () => {
   const id = useId()
-  const history = useHistory()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
@@ -17,25 +18,25 @@ const NewList = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const onSubmit = useCallback(
-    event => {
+    (event) => {
       event.preventDefault()
 
       setIsSubmitting(true)
 
       void dispatch(createList({ title }))
         .unwrap()
-        .then(listId => {
+        .then((listId) => {
           dispatch(setCurrentList(listId))
-          history.push(`/`)
+          navigate(`/`)
         })
-        .catch(err => {
+        .catch((err) => {
           setErrorMessage(err.message)
         })
         .finally(() => {
           setIsSubmitting(false)
         })
     },
-    [title],
+    [title]
   )
 
   return (
@@ -53,7 +54,7 @@ const NewList = () => {
             className="app_input"
             placeholder="Family"
             value={title}
-            onChange={event => setTitle(event.target.value)}
+            onChange={(event) => setTitle(event.target.value)}
           />
         </fieldset>
         <div className="new_list__form_actions">
@@ -61,9 +62,10 @@ const NewList = () => {
             Cancel
           </Link>
           <div className="new_list__form_actions_spacer"></div>
-          <button type="submit" className="app_button" disabled={isSubmitting}>
+          <Button type="submit" isSubmitting={isSubmitting}>
             Create
-          </button>
+          </Button>
+
         </div>
       </form>
     </main>

@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react'
-import { Redirect, Link } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { Button } from '~/components/Button'
 import './index.css'
 import { useSignup } from '~/hooks/useSignup'
 import { useId } from '~/hooks/useId'
 
 const SignUp = () => {
-  const auth = useSelector(state => state.auth.token !== null)
+  const auth = useSelector((state) => state.auth.token !== null)
 
   const id = useId()
   const [errorMessage, setErrorMessage] = useState('')
@@ -19,24 +20,24 @@ const SignUp = () => {
   const { signup } = useSignup()
 
   const onSubmit = useCallback(
-    event => {
+    (event) => {
       event.preventDefault()
 
       setIsSubmitting(true)
 
       signup({ email, name, password })
-        .catch(err => {
+        .catch((err) => {
           setErrorMessage(`サインアップに失敗しました: ${err.message}`)
         })
         .finally(() => {
           setIsSubmitting(false)
         })
     },
-    [email, name, password],
+    [email, name, password]
   )
 
   if (auth) {
-    return <Redirect to="/" />
+    return <Navigate to="/" />
   }
 
   return (
@@ -53,7 +54,7 @@ const SignUp = () => {
             autoComplete="email"
             className="app_input"
             value={email}
-            onChange={event => setEmail(event.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </fieldset>
         <fieldset className="signup__form_field">
@@ -69,7 +70,7 @@ const SignUp = () => {
             type="text"
             className="app_input"
             value={name}
-            onChange={event => setName(event.target.value)}
+            onChange={(event) => setName(event.target.value)}
           />
         </fieldset>
         <fieldset className="signup__form_field">
@@ -85,7 +86,7 @@ const SignUp = () => {
             type="password"
             className="app_input"
             value={password}
-            onChange={event => setPassword(event.target.value)}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </fieldset>
         <div className="signup__form_actions">
@@ -93,9 +94,10 @@ const SignUp = () => {
             Login
           </Link>
           <div className="signup__form_actions_spacer"></div>
-          <button type="submit" className="app_button" disabled={isSubmitting}>
+          
+          <Button type="submit" disabled={isSubmitting}>
             Register
-          </button>
+          </Button>
         </div>
       </form>
     </main>

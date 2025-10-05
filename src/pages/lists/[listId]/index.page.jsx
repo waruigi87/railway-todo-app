@@ -5,6 +5,7 @@ import { TaskItem } from '~/components/TaskItem'
 import { TaskCreateForm } from '~/components/TaskCreateForm'
 import { setCurrentList } from '~/store/list'
 import { fetchTasks } from '~/store/task'
+import { Button } from '~/components/Button'
 import './index.css'
 
 const ListIndex = () => {
@@ -12,17 +13,17 @@ const ListIndex = () => {
   const { listId } = useParams()
 
   const isLoading = useSelector(
-    state => state.task.isLoading || state.list.isLoading,
+    (state) => state.task.isLoading || state.list.isLoading
   )
 
-  const tasks = useSelector(state => state.task.tasks)
-  const listName = useSelector(state => {
+  const tasks = useSelector((state) => state.task.tasks)
+  const listName = useSelector((state) => {
     const currentId = state.list.current
-    const list = state.list.lists?.find(list => list.id === currentId)
+    const list = state.list.lists?.find((list) => list.id === currentId)
     return list?.title
   })
-  const incompleteTasksCount = useSelector(state => {
-    return state.task.tasks?.filter(task => !task.done).length
+  const incompleteTasksCount = useSelector((state) => {
+    return state.task.tasks?.filter((task) => !task.done).length
   })
 
   useEffect(() => {
@@ -45,12 +46,13 @@ const ListIndex = () => {
         )}
         <div className="tasks_list__title_spacer"></div>
         <Link to={`/lists/${listId}/edit`}>
-          <button className="app_button">Edit...</button>
+
+          <Button>Edit...</Button>
         </Link>
       </div>
       <div className="tasks_list__items">
         <TaskCreateForm />
-        {tasks?.map(task => {
+        {tasks?.map((task) => {
           return <TaskItem key={task.id} task={task} />
         })}
         {tasks?.length === 0 && (

@@ -2,6 +2,7 @@ import { ListIcon } from '~/icons/ListIcon'
 import './Sidebar.css'
 import { Link, useLocation } from 'react-router-dom'
 import { PlusIcon } from '~/icons/PlusIcon'
+import { Button } from '~/components/Button'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLogout } from '~/hooks/useLogout'
 import { useEffect } from 'react'
@@ -11,10 +12,10 @@ export const Sidebar = () => {
   const dispatch = useDispatch()
   const { pathname } = useLocation()
 
-  const lists = useSelector(state => state.list.lists)
-  const activeId = useSelector(state => state.list.current)
-  const isLoggedIn = useSelector(state => state.auth.token !== null)
-  const userName = useSelector(state => state.auth.user?.name)
+  const lists = useSelector((state) => state.list.lists)
+  const activeId = useSelector((state) => state.list.current)
+  const isLoggedIn = useSelector((state) => state.auth.token !== null)
+  const userName = useSelector((state) => state.auth.user?.name)
 
   // リスト新規作成ページではリストをハイライトしない
   const shouldHighlight = !pathname.startsWith('/list/new')
@@ -36,17 +37,14 @@ export const Sidebar = () => {
             <div className="sidebar__lists">
               <h2 className="sidebar__lists_title">Lists</h2>
               <ul className="sidebar__lists_items">
-                {lists.map(listItem => (
+                {lists.map((listItem) => (
                   <li key={listItem.id}>
                     <Link
                       data-active={shouldHighlight && listItem.id === activeId}
                       to={`/lists/${listItem.id}`}
                       className="sidebar__lists_item"
                     >
-                      <ListIcon
-                        aria-hidden
-                        className="sidebar__lists_icon"
-                      />
+                      <ListIcon aria-hidden className="sidebar__lists_icon" />
                       {listItem.title}
                     </Link>
                   </li>
@@ -63,13 +61,11 @@ export const Sidebar = () => {
           <div className="sidebar__spacer" aria-hidden />
           <div className="sidebar__account">
             <p className="sidebar__account_name">{userName}</p>
-            <button
-              type="button"
-              className="sidebar__account_logout"
-              onClick={logout}
-            >
+            
+            <Button type="button" className="sidebar__account_logout" onClick={logout} >
               Logout
-            </button>
+            </Button>
+
           </div>
         </>
       ) : (

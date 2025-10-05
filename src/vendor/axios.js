@@ -7,9 +7,11 @@ const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_RAILWAY_TODO_API_URL,
 })
 
+console.log('✅ API baseURL:', import.meta.env.VITE_RAILWAY_TODO_API_URL)
+
 axiosInstance.interceptors.response.use(
-  response => response,
-  err => {
+  (response) => response,
+  (err) => {
     // 401を返す場合はトークンを飛ばしてログイン画面に遷移
     if (err && err.response && err.response.status === 401) {
       localStorage.removeItem('railway-todo-app__token')
@@ -21,7 +23,7 @@ axiosInstance.interceptors.response.use(
     }
 
     return Promise.reject(err)
-  },
+  }
 )
 
 /*

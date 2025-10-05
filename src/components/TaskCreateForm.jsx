@@ -17,7 +17,7 @@ export const TaskCreateForm = () => {
   const [done, setDone] = useState(false)
 
   const handleToggle = useCallback(() => {
-    setDone(prev => !prev)
+    setDone((prev) => !prev)
   }, [])
 
   const handleFocus = useCallback(() => {
@@ -49,7 +49,7 @@ export const TaskCreateForm = () => {
   }, [])
 
   const onSubmit = useCallback(
-    event => {
+    (event) => {
       event.preventDefault()
 
       setFormState('submitting')
@@ -59,12 +59,12 @@ export const TaskCreateForm = () => {
         .then(() => {
           handleDiscard()
         })
-        .catch(err => {
+        .catch((err) => {
           alert(err.message)
           setFormState('focused')
         })
     },
-    [title, detail, done],
+    [title, detail, done]
   )
 
   useEffect(() => {
@@ -105,9 +105,7 @@ export const TaskCreateForm = () => {
               className="task_create_form__mark____complete"
               aria-label="Completed"
             >
-              <CheckIcon
-                className="task_create_form__mark____complete_check"
-              />
+              <CheckIcon className="task_create_form__mark____complete_check" />
             </div>
           ) : (
             <div
@@ -121,7 +119,7 @@ export const TaskCreateForm = () => {
           className="task_create_form__title"
           placeholder="Add a new task..."
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           onFocus={handleFocus}
           onBlur={handleBlur}
           disabled={formState === 'submitting'}
@@ -135,7 +133,7 @@ export const TaskCreateForm = () => {
             className="task_create_form__detail"
             placeholder="Add a description here..."
             value={detail}
-            onChange={e => setDetail(e.target.value)}
+            onChange={(e) => setDetail(e.target.value)}
             onBlur={handleBlur}
             disabled={formState === 'submitting'}
           />

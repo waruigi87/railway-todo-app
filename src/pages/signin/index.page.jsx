@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react'
-import { Redirect, Link } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useLogin } from '~/hooks/useLogin'
+import { Button } from '~/components/Button'
 import { useId } from '~/hooks/useId'
 import './index.css'
 
 const SignIn = () => {
-  const auth = useSelector(state => state.auth.token !== null)
+  const auth = useSelector((state) => state.auth.token !== null)
   const { login } = useLogin()
 
   const id = useId()
@@ -17,24 +18,24 @@ const SignIn = () => {
   const [password, setPassword] = useState('')
 
   const onSubmit = useCallback(
-    event => {
+    (event) => {
       event.preventDefault()
 
       setIsSubmitting(true)
 
       login({ email, password })
-        .catch(err => {
+        .catch((err) => {
           setErrorMessage(err.message)
         })
         .finally(() => {
           setIsSubmitting(false)
         })
     },
-    [email, password],
+    [email, password]
   )
 
   if (auth) {
-    return <Redirect to="/" />
+    return <Navigate to="/" />
   }
 
   return (
@@ -52,7 +53,7 @@ const SignIn = () => {
             autoComplete="email"
             className="app_input"
             value={email}
-            onChange={event => setEmail(event.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </fieldset>
         <fieldset className="signin__form_field">
@@ -65,7 +66,7 @@ const SignIn = () => {
             autoComplete="current-password"
             className="app_input"
             value={password}
-            onChange={event => setPassword(event.target.value)}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </fieldset>
         <div className="signin__form_actions">
@@ -73,9 +74,11 @@ const SignIn = () => {
             Register
           </Link>
           <div className="signin__form_actions_spacer"></div>
-          <button type="submit" className="app_button" disabled={isSubmitting}>
+          
+          <Button type="submit" isSubmitting={isSubmitting}>
             Login
-          </button>
+          </Button>
+          
         </div>
       </form>
     </main>
