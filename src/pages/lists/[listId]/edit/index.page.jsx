@@ -6,6 +6,7 @@ import Button from '~/components/Button'
 import './index.css'
 import { fetchLists, updateList, deleteList } from '~/store/list'
 import { useId } from '~/hooks/useId'
+import InputField from '~/components/InputField'
 
 const EditList = () => {
   const id = useId()
@@ -84,12 +85,12 @@ const EditList = () => {
           <label htmlFor={`${id}-title`} className="edit_list__form_label">
             Name
           </label>
-          <input
+          <InputField
             id={`${id}-title`}
             className="app_input"
             placeholder="Family"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={setTitle}
           />
         </fieldset>
         <div className="edit_list__form_actions">

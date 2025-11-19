@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import Button from '~/components/Button'
 import './index.css'
 import { useSignup } from '~/hooks/useSignup'
+import InputField from '~/components/InputField'
 import { useId } from '~/hooks/useId'
 
 const SignUp = () => {
@@ -49,12 +50,11 @@ const SignUp = () => {
           <label htmlFor={`${id}-email`} className="signup__form_label">
             E-mail Address
           </label>
-          <input
+          <InputField
             id={`${id}-email`}
-            autoComplete="email"
             className="app_input"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={setEmail}
           />
         </fieldset>
         <fieldset className="signup__form_field">
@@ -65,12 +65,12 @@ const SignUp = () => {
           >
             Name
           </label>
-          <input
+          <InputField
             id={`${id}-name`}
             type="text"
             className="app_input"
             value={name}
-            onChange={(event) => setName(event.target.value)}
+            onChange={setName}
           />
         </fieldset>
         <fieldset className="signup__form_field">
@@ -81,12 +81,12 @@ const SignUp = () => {
           >
             Password
           </label>
-          <input
+          <InputField
             id={`${id}-password`}
             type="password"
             className="app_input"
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={setPassword}
           />
         </fieldset>
         <div className="signup__form_actions">
@@ -94,7 +94,6 @@ const SignUp = () => {
             Login
           </Link>
           <div className="signup__form_actions_spacer"></div>
-          
           <Button type="submit" disabled={isSubmitting}>
             Register
           </Button>

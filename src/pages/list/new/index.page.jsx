@@ -6,6 +6,7 @@ import Button from '~/components/Button'
 import './index.css'
 import { createList, setCurrentList } from '~/store/list/index'
 import { useId } from '~/hooks/useId'
+import InputField from '~/components/InputField'
 
 const NewList = () => {
   const id = useId()
@@ -49,7 +50,8 @@ const NewList = () => {
           <label htmlFor={`${id}-title`} className="new_list__form_label">
             Name
           </label>
-          <input
+
+          <InputField
             id={`${id}-title`}
             className="app_input"
             placeholder="Family"
@@ -65,7 +67,6 @@ const NewList = () => {
           <Button type="submit" isSubmitting={isSubmitting}>
             Create
           </Button>
-
         </div>
       </form>
     </main>

@@ -1,4 +1,4 @@
-import styles from './Button.module.css';
+import styles from './Button.module.css'
 
 export default function Button({
   type = 'button',
@@ -9,7 +9,7 @@ export default function Button({
   disabled = false, // 呼び出し側のdisabledもサポート
 }) {
   // CSSを結合（共通スタイル + 呼び出し側独自クラス）
-  const combinedClassName = `${styles.app_button} ${className}`.trim();
+  const combinedClassName = `${styles.app_button} ${className}`.trim()
 
   return (
     <button
@@ -20,5 +20,5 @@ export default function Button({
     >
       {children}
     </button>
-  );
+  )
 }

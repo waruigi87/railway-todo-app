@@ -47,7 +47,6 @@
   min-height: 100vh;
 }
 
-
 .app_button {
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
@@ -87,7 +86,6 @@
 .app_button[data-variant='secondary']:disabled {
   color: var(--slate-300);
 }
-
 
 .app_input {
   background-color: #ffffff;

@@ -61,11 +61,14 @@ export const Sidebar = () => {
           <div className="sidebar__spacer" aria-hidden />
           <div className="sidebar__account">
             <p className="sidebar__account_name">{userName}</p>
-            
-            <Button type="button" className="sidebar__account_logout" onClick={logout} >
+
+            <Button
+              type="button"
+              className="sidebar__account_logout"
+              onClick={logout}
+            >
               Logout
             </Button>
-
           </div>
         </>
       ) : (

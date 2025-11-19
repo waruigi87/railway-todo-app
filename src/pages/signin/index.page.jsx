@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { useLogin } from '~/hooks/useLogin'
 import Button from '~/components/Button'
 import { useId } from '~/hooks/useId'
+import InputField from '~/components/InputField'
 import './index.css'
 
 const SignIn = () => {
@@ -47,26 +48,24 @@ const SignIn = () => {
           <label htmlFor={`${id}-email`} className="signin__form_label">
             E-mail Address
           </label>
-          <input
+          <InputField
             id={`${id}-email`}
             type="email"
-            autoComplete="email"
             className="app_input"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={setEmail}
           />
         </fieldset>
         <fieldset className="signin__form_field">
           <label htmlFor={`${id}-password`} className="signin__form_label">
             Password
           </label>
-          <input
+          <InputField
             id={`${id}-password`}
             type="password"
-            autoComplete="current-password"
             className="app_input"
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={setPassword}
           />
         </fieldset>
         <div className="signin__form_actions">
@@ -74,11 +73,10 @@ const SignIn = () => {
             Register
           </Link>
           <div className="signin__form_actions_spacer"></div>
-          
+
           <Button type="submit" isSubmitting={isSubmitting}>
             Login
           </Button>
-          
         </div>
       </form>
     </main>
