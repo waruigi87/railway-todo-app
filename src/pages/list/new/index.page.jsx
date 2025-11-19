@@ -56,7 +56,7 @@ const NewList = () => {
             className="app_input"
             placeholder="Family"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={setTitle}
           />
         </fieldset>
         <div className="new_list__form_actions">
