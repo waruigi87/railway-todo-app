@@ -1,17 +1,28 @@
-.sidebar {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 320px;
-  background-color: var(--slate-100);
-  border-right: 1px solid var(--slate-200);
-  padding: 2.5rem 1.5rem;
-  overflow-y: auto;
+/* PC 幅（768px 以上）：サイドバー表示 */
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 320px;
+    background-color: var(--slate-100);
+    border-right: 1px solid var(--slate-200);
+    padding: 2.5rem 1.5rem;
+    overflow-y: auto;
+  }
 }
 
+/* モバイル（768px 未満）：サイドバー自体を非表示 */
+@media (max-width: 767px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+/* 以下は共通（前と同じでOK） */
 .sidebar__title {
   font-weight: 700;
   font-size: 1.5rem;

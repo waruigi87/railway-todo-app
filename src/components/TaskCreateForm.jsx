@@ -15,6 +15,7 @@ export const TaskCreateForm = () => {
   const [title, setTitle] = useState('')
   const [detail, setDetail] = useState('')
   const [done, setDone] = useState(false)
+  const [limit, setLimit] = useState('')
 
   const handleToggle = useCallback(() => {
     setDone((prev) => !prev)
@@ -46,6 +47,7 @@ export const TaskCreateForm = () => {
     setDetail('')
     setFormState('initial')
     setDone(false)
+    setLimit('')
   }, [])
 
   const onSubmit = useCallback(
@@ -54,7 +56,9 @@ export const TaskCreateForm = () => {
 
       setFormState('submitting')
 
-      void dispatch(createTask({ title, detail, done }))
+      const apiLimit = toApiLimitFromLocal(limit)
+
+      void dispatch(createTask({ title, detail, done, limit: apiLimit }))
         .unwrap()
         .then(() => {
           handleDiscard()
@@ -64,7 +68,7 @@ export const TaskCreateForm = () => {
           setFormState('focused')
         })
     },
-    [title, detail, done]
+    [title, detail, done, limit]
   )
 
   useEffect(() => {
@@ -84,6 +88,19 @@ export const TaskCreateForm = () => {
       elemTextarea.removeEventListener('input', recalcHeight)
     }
   }, [elemTextarea])
+
+  function toApiLimitFromLocal(localValue) {
+    if (!localValue) return null // 期限なし
+
+    // localValue: "2025-11-22T21:30" など
+    const date = new Date(localValue)
+
+    // "2025-11-22T12:30:00.000Z" みたいな文字列になる
+    const iso = date.toISOString()
+
+    // ミリ秒を削って "YYYY-MM-DDTHH:MM:SSZ" にする
+    return iso.replace(/\.\d{3}Z$/, 'Z')
+  }
 
   return (
     <form
@@ -135,6 +152,13 @@ export const TaskCreateForm = () => {
             value={detail}
             onChange={(e) => setDetail(e.target.value)}
             onBlur={handleBlur}
+            disabled={formState === 'submitting'}
+          />
+          <input
+            type="datetime-local"
+            className="task_create_form__limit"
+            value={limit}
+            onChange={(e) => setLimit(e.target.value)}
             disabled={formState === 'submitting'}
           />
           <div className="task_create_form__actions">

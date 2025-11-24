@@ -106,3 +106,22 @@
 .app_input::placeholder {
   color: var(--slate-500);
 }
+
+
+
+/* PC：サイドバー分だけ右側に余白 */
+@media (min-width: 768px) {
+  .main_content {
+    margin-left: 320px;
+    padding: 2.5rem 2rem;
+  }
+}
+
+/* モバイル：ヘッダーにかぶらないよう上に余白 */
+@media (max-width: 767px) {
+  .main_content {
+    margin-left: 0;
+    padding: 72px 1rem 2rem;
+    /* header 高さ + 少し余白 */
+  }
+}

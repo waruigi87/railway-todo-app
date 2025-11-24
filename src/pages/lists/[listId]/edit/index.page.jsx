@@ -8,11 +8,11 @@ import { fetchLists, updateList, deleteList } from '~/store/list'
 import { useId } from '~/hooks/useId'
 import InputField from '~/components/InputField'
 
-const EditList = () => {
+const EditList = ({ listId, onClose }) => {
   const id = useId()
 
-  const { listId } = useParams()
-  const navigate = useNavigate()
+  // const { listId } = useParams()
+  // const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
@@ -43,7 +43,7 @@ const EditList = () => {
       void dispatch(updateList({ id: listId, title }))
         .unwrap()
         .then(() => {
-          navigate(`/lists/${listId}`)
+          onClose()
         })
         .catch((err) => {
           setErrorMessage(err.message)
@@ -52,7 +52,7 @@ const EditList = () => {
           setIsSubmitting(false)
         })
     },
-    [title, listId]
+    [title, listId, onClose]
   )
 
   const handleDelete = useCallback(() => {
@@ -65,7 +65,7 @@ const EditList = () => {
     void dispatch(deleteList({ id: listId }))
       .unwrap()
       .then(() => {
-        navigate(`/`)
+        onClose()
       })
       .catch((err) => {
         setErrorMessage(err.message)
@@ -73,11 +73,10 @@ const EditList = () => {
       .finally(() => {
         setIsSubmitting(false)
       })
-  }, [])
+  }, [listId, onClose])
 
   return (
     <main className="edit_list">
-      <BackButton />
       <h2 className="edit_list__title">Edit List</h2>
       <p className="edit_list__error">{errorMessage}</p>
       <form className="edit_list__form" onSubmit={onSubmit}>
@@ -94,9 +93,14 @@ const EditList = () => {
           />
         </fieldset>
         <div className="edit_list__form_actions">
-          <Link to="/" data-variant="secondary" className="app_button">
+          <button
+            type="button"
+            data-variant="secondary"
+            className="app_button"
+            onClick={onClose}
+          >
             Cancel
-          </Link>
+          </button>
           <div className="edit_list__form_actions_spacer"></div>
           <Button
             type="button"

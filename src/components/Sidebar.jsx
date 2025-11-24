@@ -1,3 +1,4 @@
+// src/components/Sidebar.jsx
 import { ListIcon } from '~/icons/ListIcon'
 import './Sidebar.css'
 import { Link, useLocation } from 'react-router-dom'
@@ -6,7 +7,7 @@ import Button from '~/components/Button'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLogout } from '~/hooks/useLogout'
 import { useEffect } from 'react'
-import { fetchLists } from '~/store/list/index'
+import { fetchLists } from '~/store/list'
 
 export const Sidebar = () => {
   const dispatch = useDispatch()
@@ -24,7 +25,7 @@ export const Sidebar = () => {
 
   useEffect(() => {
     void dispatch(fetchLists())
-  }, [])
+  }, [dispatch])
 
   return (
     <div className="sidebar">
@@ -72,11 +73,9 @@ export const Sidebar = () => {
           </div>
         </>
       ) : (
-        <>
-          <Link to="/signin" className="sidebar__login">
-            Login
-          </Link>
-        </>
+        <Link to="/signin" className="sidebar__login">
+          Login
+        </Link>
       )}
     </div>
   )

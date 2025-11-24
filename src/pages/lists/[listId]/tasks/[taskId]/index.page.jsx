@@ -10,16 +10,14 @@ import { useId } from '~/hooks/useId'
 import InputField from '~/components/InputField'
 import TextAreaField from '~/components/TextAreaField'
 
-const EditTask = () => {
+const EditTask = ({ listId, taskId, onClose }) => {
   const id = useId()
-
-  const { listId, taskId } = useParams()
-  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
   const [detail, setDetail] = useState('')
   const [done, setDone] = useState(false)
+  const [limit, setLimit] = useState('')
 
   const [errorMessage, setErrorMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -32,6 +30,7 @@ const EditTask = () => {
     if (task) {
       setTitle(task.title)
       setDetail(task.detail)
+      setLimit(isoToLocalInputValue(task.limit))
       setDone(task.done)
     }
   }, [task])
@@ -39,7 +38,7 @@ const EditTask = () => {
   useEffect(() => {
     void dispatch(setCurrentList(listId))
     void dispatch(fetchTasks())
-  }, [listId])
+  }, [listId, dispatch])
 
   const onSubmit = useCallback(
     (event) => {
@@ -47,10 +46,14 @@ const EditTask = () => {
 
       setIsSubmitting(true)
 
-      void dispatch(updateTask({ id: taskId, title, detail, done }))
+      const apiLimit = localInputValueToIso(limit)
+
+      void dispatch(
+        updateTask({ id: taskId, title, detail, done, limit: apiLimit })
+      )
         .unwrap()
         .then(() => {
-          navigate(`/lists/${listId}`)
+          onClose()
         })
         .catch((err) => {
           setErrorMessage(err.message)
@@ -59,7 +62,7 @@ const EditTask = () => {
           setIsSubmitting(false)
         })
     },
-    [title, taskId, listId, detail, done]
+    [title, taskId, listId, detail, done, limit, onClose, dispatch]
   )
 
   const handleDelete = useCallback(() => {
@@ -72,7 +75,7 @@ const EditTask = () => {
     void dispatch(deleteTask({ id: taskId }))
       .unwrap()
       .then(() => {
-        navigate(`/`)
+        onClose()
       })
       .catch((err) => {
         setErrorMessage(err.message)
@@ -80,11 +83,40 @@ const EditTask = () => {
       .finally(() => {
         setIsSubmitting(false)
       })
-  }, [taskId])
+  }, [taskId, onClose, dispatch])
+
+  function isoToLocalInputValue(isoString) {
+    if (!isoString) return ''
+
+    const date = new Date(isoString)
+
+    const pad = (n) => String(n).padStart(2, '0')
+
+    const year = date.getFullYear()
+    const month = pad(date.getMonth() + 1)
+    const day = pad(date.getDate())
+    const hours = pad(date.getHours())
+    const minutes = pad(date.getMinutes())
+
+    // datetime-local が期待する形式: "YYYY-MM-DDTHH:MM"
+    return `${year}-${month}-${day}T${hours}:${minutes}`
+  }
+
+  function localInputValueToIso(localValue) {
+    if (!localValue) return null
+
+    // localValue は "2025-11-22T21:30" のような文字列
+    const date = new Date(localValue)
+
+    // "2025-11-22T12:30:00.000Z" みたいなISO文字列になる
+    const iso = date.toISOString()
+
+    // ミリ秒を削って "YYYY-MM-DDTHH:MM:SSZ" 形式に整える
+    return iso.replace(/\.\d{3}Z$/, 'Z')
+  }
 
   return (
     <main className="edit_list">
-      <BackButton />
       <h2 className="edit_list__title">Edit List</h2>
       <p className="edit_list__error">{errorMessage}</p>
       <form className="edit_list__form" onSubmit={onSubmit}>
@@ -112,6 +144,17 @@ const EditTask = () => {
             onChange={setDetail}
           />
         </fieldset>
+        <fieldset className="edit_limit__form_field">
+          <label htmlFor={`${id}-detail`} className="edit_list__form_label">
+            Limit
+          </label>
+          <input
+            type="datetime-local"
+            className="edit_limit_form"
+            value={limit}
+            onChange={(e) => setLimit(e.target.value)}
+          />
+        </fieldset>
         <fieldset className="edit_list__form_field">
           <label htmlFor={`${id}-done`} className="edit_list__form_label">
             Is Done
@@ -126,9 +169,14 @@ const EditTask = () => {
           </div>
         </fieldset>
         <div className="edit_list__form_actions">
-          <Link to="/" data-variant="secondary" className="app_button">
+          <button
+            type="button"
+            data-variant="secondary"
+            className="app_button"
+            onClick={onClose} // ← Cancel はモーダルを閉じる
+          >
             Cancel
-          </Link>
+          </button>
           <div className="edit_list__form_actions_spacer"></div>
           <Button
             type="button"

@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { BrowserRouter, Route, Navigate, Routes } from 'react-router-dom'
 import { Sidebar } from '~/components/Sidebar'
+import { HeaderBar } from '~/components/HeaderBar'
 import Home from '~/pages/index.page'
 import NotFound from '~/pages/404'
 import SignIn from '~/pages/signin/index.page'
@@ -17,6 +18,7 @@ export const Router = () => {
   return (
     <BrowserRouter>
       <Sidebar />
+      <HeaderBar />
       <div className="main_content">
         <Routes>
           <Route path="/signin" element={<SignIn />} />
