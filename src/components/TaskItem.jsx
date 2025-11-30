@@ -25,16 +25,31 @@ export const TaskItem = ({ task, onEdit }) => {
     const due = new Date(limit)
     const diffMs = due - now
 
-    if (diffMs <= 0) return '期限切れ'
+    if (diffMs <= 0) return 'Expired'
 
     const totalMinutes = Math.floor(diffMs / 1000 / 60)
     const days = Math.floor(totalMinutes / (60 * 24))
     const hours = Math.floor((totalMinutes % (60 * 24)) / 60)
     const minutes = totalMinutes % 60
 
-    if (days > 0) return `${days}日 ${hours}時間 ${minutes}分残り`
-    if (hours > 0) return `${hours}時間 ${minutes}分残り`
-    return `${minutes}分残り`
+    if (days > 0) return `${days}days ${hours}hours ${minutes}minutes remaining`
+    if (hours > 0) return `${hours}hours ${minutes}minutes remaining`
+    return `${minutes}minutes remaining`
+  }
+
+  function formatLimit(limit) {
+    if (!limit) return ''
+
+    const date = new Date(limit)
+
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+
+    // 例: 2025-11-28 11:11
+    return `${year}-${month}-${day} ${hours}:${minutes}`
   }
 
   return (
@@ -70,7 +85,7 @@ export const TaskItem = ({ task, onEdit }) => {
         </button>
       </div>
       <div className="task_item__detail">{detail}</div>
-      <div className="task_item__limit">{limit}</div>
+      <div className="task_item__limit">Due:{formatLimit(limit)}</div>
       <div className="task_item__limit_remaining">
         {getRemainingText(limit)}
       </div>
